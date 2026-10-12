@@ -1,12 +1,13 @@
 cff-version: 1.2.0
 message: "If you use this protocol or results, please cite it as below."
-title: "Majere: Multi-Persona Deliberation as an Architecture for Affect-Modulated, Self-Monitoring Language Agents"
+title: "Majere: Norwegian (Bokmål/Nynorsk) Language Models with Reliable Tool Calling on a Single 16 GB GPU"
 type: software
 authors:
-  - name: "Thomas"
-    email: "thomas@austenaa.no"
+  - family-names: "Austenaa"
+    given-names: "Thomas"
+    email: "mail@thomasaustenaa.no"
 repository-code: "https://github.com/tussienorway/majere-research"
-url: "https://majere.austenaa.no/"
+url: "https://majere.thomasaustenaa.no/"
 license: MIT
 date-released: "2026-10-12"
-keywords: [multi-agent deliberation, affective computing, calibration, LLM agents, consciousness indicators]
+keywords: [Norwegian, Nynorsk, function calling, tool use, QLoRA, LLM evaluation]
