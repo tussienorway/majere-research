@@ -27,3 +27,15 @@ The core agent implementation is private for now. This repository holds the open
 
 ## Licence
 Code: MIT (see `LICENSE`). Documentation and results: CC BY 4.0.
+
+## Cite this
+```bibtex
+@misc{majere2026,
+  title  = {Majere: Multi-Persona Deliberation as an Architecture for Affect-Modulated, Self-Monitoring Language Agents},
+  author = {Thomas},
+  year   = {2026},
+  howpublished = {\url{https://github.com/tussienorway/majere-research}},
+  note   = {Research protocol; results pending}
+}
+```
+See also `CITATION.cff`. Project site: https://tussienorway.github.io/majere-site/ (will move to majere.austenaa.no).

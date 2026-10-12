@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this protocol or results, please cite it as below."
+title: "Majere: Multi-Persona Deliberation as an Architecture for Affect-Modulated, Self-Monitoring Language Agents"
+type: software
+authors:
+  - name: "Thomas"
+    email: "thomas@austenaa.no"
+repository-code: "https://github.com/tussienorway/majere-research"
+url: "https://tussienorway.github.io/majere-site/"
+license: MIT
+date-released: "2026-10-12"
+keywords: [multi-agent deliberation, affective computing, calibration, LLM agents, consciousness indicators]
