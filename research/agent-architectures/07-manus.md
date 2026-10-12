@@ -1,0 +1,4 @@
+# 7. Manus
+- **Kontekstteknikk (fra deres egen blogg):** stabile prefiks i prompten for å få treff i KV-cachen. Verktøy maskeres med logits i stedet for å fjernes fra konteksten. Filsystemet brukes som ekstern hukommelse. En `todo.md` skrives om hele tiden for å holde målet «sist i konteksten». Feil beholdes i konteksten slik at modellen lærer av dem. Kilde: https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus
+- **Kjøremiljø:** en sky-VM per oppgave.
+- **For oss:** svært relevant for llama.cpp. Med stabile systemprompter og verktøylister kan llama-server gjenbruke prompt-cachen (`cache_prompt`). Det gir raskere steg for 9B (estimat: betydelig). Todo-fil-mønsteret passer for lange computer-use-oppgaver. Det kan også fikse Notisblokk-feilen der agenten ikke stoppet.

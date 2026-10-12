@@ -1,0 +1,3 @@
+# 18. browser-use
+- **Arkitektur:** styrer Chrome via rå CDP, fordi de har gått bort fra Playwright. DomService henter DOM, tilgjengelighetstre, snapshot og layout parallelt. Den bygger noder med synlighet, rekkefølge for tegning og registrerte JS-lyttere, og gir modellen en nummerert liste over elementer som kan brukes. Den kan også bruke skjermbilder. Kilder: https://github.com/browser-use/browser-use og https://browser-use.com/posts/playwright-to-cdp
+- **For oss:** agent-browser bruker allerede referanser fra tilgjengelighetstreet. Vi kan legge til filtrering etter synlighet og rekkefølge for tegning, slik at 9B-modellen får en kortere liste.

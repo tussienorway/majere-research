@@ -15,3 +15,7 @@ The error analysis and raw answers are in [majere-nofc/results](https://github.c
 - unnecessary follow-up questions (2)
 
 These are indicative numbers on a small development set.
+
+## Index
+- [2026-10-12: Hermes local model eval (4B fine-tune vs 9B, candidates)](2026-10-12-hermes-local-model-eval.md)
+- [2026-10: AI agent architectures overview + per-agent deep dives (Norwegian)](../research/ai-agent-architectures-2026-10.md) – [details](../research/agent-architectures/README.md)
