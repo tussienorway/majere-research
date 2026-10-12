@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: "If you use this protocol or results, please cite it as below."
 title: "Majere: Norwegian (Bokmål/Nynorsk) Language Models with Reliable Tool Calling on a Single 16 GB GPU"
 type: software
+version: "0.1"
+abstract: "Evaluation and training of small local LLMs (4–14B) for Norwegian Bokmål and exact tool calling on a single 16 GB GPU. Baseline Qwen3.5-9B: 98.3% Norwegian, 81.7% right tool, 70.0% exact arguments."
 authors:
   - family-names: "Austenaa"
     given-names: "Thomas"
@@ -9,5 +11,18 @@ authors:
 repository-code: "https://github.com/tussienorway/majere-research"
 url: "https://majere.thomasaustenaa.no/"
 license: MIT
-date-released: "2026-10-12"
+date-released: "2026-10-13"
 keywords: [Norwegian, Nynorsk, function calling, tool use, QLoRA, LLM evaluation]
+preferred-citation:
+  type: report
+  title: "Majere: Measuring and Improving Norwegian Tool-Calling in Small Local LLMs on a Single 16 GB GPU"
+  authors:
+    - family-names: "Austenaa"
+      given-names: "Thomas"
+  year: 2026
+  url: "https://github.com/tussienorway/majere-research/blob/main/paper/majere-preprint.pdf"
+references:
+  - type: dataset
+    title: "Majere Eval: Norwegian + tool calling (v0)"
+    authors: [{family-names: "Austenaa", given-names: "Thomas"}]
+    url: "https://huggingface.co/datasets/tussienorway/majere-eval-no-tools"

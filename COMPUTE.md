@@ -1,16 +1,23 @@
-# Majere – gratis compute tracker (oppdatert 2026-10-12)
-Kontakt: thomasaustenaa@gmail.com · Site: https://majere.thomasaustenaa.no · Uavhengig forsker, Grimstad. Ingen org.
-| # | Program | Odds×verdi | Krav | Skjema | Status |
-|---|---------|-----------|------|--------|--------|
-| 1 | Google TPU Research Cloud | Høy | Forskning, publiser resultater, Google-konto | https://sites.research.google/trc/about/ | Sendt 12. okt (interesseskjema, programmet fullt) |
-| 2 | Hugging Face community GPU grant (Space) | Høy | Offentlig Space, be om grant i Space Settings | huggingface.co/spaces/<space>/settings | Space oppe (static, RUNNING): huggingface.co/spaces/tussienorway/majere-demo – grant-forespørsel må sendes i nettleser |
-| 3 | Lambda Research Grant | Middels | Forskningsprosjekt, kort søknad | https://lambda.ai/research | Sendt 12. okt |
-| 4 | EuroHPC AI Factories / Playground | Middels (krever EU-tilknytning ofte) | Prosjektbeskrivelse | https://eurohpc-ju.europa.eu/access-our-supercomputers_en | Utkast |
-| 5 | Sigma2/NRIS | Lav (krever norsk forskningsinstitusjon/PI) | Institusjon | https://www.sigma2.no/apply-e-infrastructure-resources | Blokkert uten institusjon |
-| 6 | Modal/RunPod/Together startup/academic credits | Lav–middels | Skjema | respektive sider | Ikke startet |
-| 7 | AWS/Azure/GCP researcher credits, NVIDIA | Lav (krever institusjon) | | | Ikke startet |
+# Majere – gratis compute tracker (oppdatert 2026-10-13)
+Kontakt: thomasaustenaa@gmail.com · Site: https://majere.thomasaustenaa.no · Uavhengig forsker, Grimstad. Ingen org. Forespørsel: ≈400 A100-timer (se applications/common.md).
 
+## Hva som får søknader innvilget (research 13. okt)
+- TRC: forskningsbeskrivelse + plikt til å publisere åpent (paper/kode/blogg). Åpen for uavhengige. Rullerende, dager–uker. https://sites.research.google/trc/faq/
+- HF community grant: fungerende offentlig Space + kort beskrivelse/begrunnelse (åpen kildekode/forskning). Søk i Space-innstillinger eller Community-diskusjon. Kan trekkes ved lav bruk. https://huggingface.co/docs/hub/spaces-gpus
+- EuroHPC AI for Science: excellence, innovation/impact, implementation; krever akademisk/offentlig tilknytning. Playground kun industri. https://www.eurohpc-ju.europa.eu/ai-factories/faqs-ai-factories_en
+- Modal/RunPod/AWS/NVIDIA/Sigma2: krever institusjon eller firma → ikke kvalifisert.
+- Felles for innvilgede: offentlig kode, reproduserbar baseline, kort preprint, HF-datasett/modell, demo, konkret GPU-timeplan med milepæler, åpen lisens.
 
-**Status 12. okt 2026:** TRC sendt (interesseskjema), Lambda sendt, HF Space tussienorway/majere-demo kjører; GPU-grant ikke forespurt ennå (krever innlogget nettleser).
+## Bevis bygget 13. okt
+Preprint (4 s): majere-research/paper/ · HF-datasett tussienorway/majere-eval-no-tools · model-cards/ · compute.html · README-badges + CITATION.
 
-Mål: trene/destillere modeller i skyen optimalisert for 16 GB forbrukerkort, publisert som GGUF.
+| # | Program | Status | Neste steg |
+|---|---------|--------|------------|
+| 1 | Google TRC | Sendt 12. okt | Vent; svar til thomasaustenaa@gmail.com |
+| 2 | Lambda Research Grant | Sendt 12. okt | Vent |
+| 3 | HF community GPU grant | Sendt 13. okt (discussions/1) | Backup-knapp i Settings (nettleser) |
+| 4 | EuroHPC AI for Science | Utkast (applications/eurohpc.md), frist 30. okt | Trenger vertsinstitusjon/PI (f.eks. UiA) |
+| 5 | Together AI research credits | Ikke sendt (invite-only) | Nettleserskjema, lav odds |
+| 6 | Azure Research Credits | Ikke sendt | Kontaktskjema, lav odds |
+| 7 | Sigma2 | Blokkert (krever institusjon) | Kun via samarbeidspartner |
+| 8 | Modal/RunPod/AWS/NVIDIA | Ikke kvalifisert | — |
