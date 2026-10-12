@@ -9,20 +9,22 @@ The open research side of **Majere**: fine-tuning a 7–8B open model for **Norw
 - Benchmark and code: https://github.com/tussienorway/majere-nofc (NO-FC, the evaluator, the QLoRA pilot)
 - Research log: [LOG.md](LOG.md)
 
-## Status (12 Oct 2026)
+## Status (13 Oct 2026)
 | Item | Status |
 |---|---|
 | Plan, data and benchmark selection | Done ([docs/research-plan.md](docs/research-plan.md)) |
 | NO-FC v0: 40 seed tasks (nb/nn) and evaluator | Done ([majere-nofc](https://github.com/tussienorway/majere-nofc)) |
-| Baseline, no fine-tuning | qwen3:8b scores **0.825** exact match (33/40) on NO-FC v0. NorMistral-11B could not be scored (no tool support in Ollama). See [results/](results/README.md) |
-| QLoRA pilot (RTX 5060 Ti 16 GB) | Scripts ready, not run yet |
+| NO-FC v1: 120 tasks (80 dev / 40 held-out test) | Done ([majere-nofc](https://github.com/tussienorway/majere-nofc), `data/nofc_v1.jsonl`) |
+| Baseline, no fine-tuning | Only published score: qwen3:8b **0.825** exact match (33/40) on NO-FC v0. v1 baselines not run. NorMistral-11B was not scored on v0 (no native tool support in Ollama). See [results/](results/README.md) |
+| QLoRA pilot (RTX 5060 Ti 16 GB) | Scripts ready, not run |
 | Fine-tuned results | None yet |
+| Next | v1 baselines (qwen3 `--no-think`; NorMistral via `--tool-mode prompt` and the Ollama Modelfile), then the pilot |
 
 ## Latest (13 Oct 2026)
-- **Preprint:** [paper/majere-preprint.pdf](paper/majere-preprint.pdf) ([Markdown](paper/majere-preprint.md))
-- **Eval set + harness on HF:** [tussienorway/majere-eval-no-tools](https://huggingface.co/datasets/tussienorway/majere-eval-no-tools)
-- **Baseline:** Qwen3.5-9B 98.3% Norwegian · 81.7% right tool · 70.0% exact args. **Negative result:** 4B LoRA 90.0% / 63.3% / 53.3%. See [model-cards/](model-cards/).
-- **Compute request:** ≈400 A100-hours, [COMPUTE.md](COMPUTE.md) · [site](https://majere.thomasaustenaa.no/compute.html)
+- **NO-FC v1** is on [majere-nofc](https://github.com/tussienorway/majere-nofc) main. The evaluator has `--no-think` and `--tool-mode prompt`. An Ollama Modelfile for the NorMistral template is under `ollama/`. No v1 scores yet.
+- **Published NO-FC score:** v0 only, qwen3:8b exact match 0.825 (33/40).
+- Hermes-agent measurements live in [results/](results/README.md) and [model-cards/](model-cards/). They are not NO-FC scores. A technical note already in this repo: [paper/majere-preprint.md](paper/majere-preprint.md).
+- Compute tracker: [COMPUTE.md](COMPUTE.md).
 
 ## Layout
 - `docs/research-plan.md`: questions, hypotheses, method and compute plan.
