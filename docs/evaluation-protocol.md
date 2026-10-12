@@ -1,9 +1,12 @@
 # Evaluation protocol
-- **NO-FC** (majere-nofc): exact_match, call_name_acc, call_arg_acc, no_call_acc and clarify_acc, reported for all tasks, Bokmål and Nynorsk.
-  - Fixed reference time for all tasks.
+- **NO-FC** ([majere-nofc](https://github.com/tussienorway/majere-nofc)): exact_match, call_name_acc, call_arg_acc, no_call_acc and clarify_acc, reported for all tasks, Bokmål and Nynorsk.
+  - **v0:** 40 seed tasks. The published baseline is on this set.
+  - **v1:** 120 tasks in `data/nofc_v1.jsonl`, split 80 dev / 40 held-out test. Reported claims use the held-out test split. No v1 scores yet.
+  - Fixed reference time for all tasks (Monday 2026-10-12 10:00, Europe/Oslo).
   - temperature 0.
-  - OpenAI-compatible endpoint with native tool calling.
-  - Models without native tool support get a separate prompt-based mode, reported separately.
+  - OpenAI-compatible endpoint. The default is native tool calling (`--tool-mode native`).
+  - Models without native tool support are scored with `--tool-mode prompt` (schemas in the system prompt, replies parsed as `<tool_call>`). Prompt-mode runs are reported separately from native runs.
+  - Qwen3 can be run with thinking off via `--no-think` (appends `/no_think`). That setting is reported separately from thinking-on runs.
 - **NorEval** and **EuroEval:** general Norwegian ability.
 - **BFCL:** English tool calling, to check that nothing regresses.
-- **Reporting:** every run publishes model, quantisation, hardware, date, raw answers and summary. 40 tasks (v0) is a development set. Final claims require NO-FC v1 (≥500 tasks, human-checked test split) and several seeds.
+- **Reporting:** every run publishes model, quantisation, hardware, date, tool mode, whether `--no-think` was set, raw answers and summary. v0 (40 tasks) is a development set. Later claims are scored on the v1 held-out test split and need several seeds.
