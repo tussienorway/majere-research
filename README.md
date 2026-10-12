@@ -38,4 +38,4 @@ Code: MIT (see `LICENSE`). Documentation and results: CC BY 4.0.
   note   = {Research protocol; results pending}
 }
 ```
-See also `CITATION.cff`. Project site: https://tussienorway.github.io/majere-site/ (will move to majere.austenaa.no).
+See also `CITATION.cff`. Project site: https://majere.austenaa.no.

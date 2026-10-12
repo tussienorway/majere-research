@@ -6,7 +6,7 @@ authors:
   - name: "Thomas"
     email: "thomas@austenaa.no"
 repository-code: "https://github.com/tussienorway/majere-research"
-url: "https://tussienorway.github.io/majere-site/"
+url: "https://majere.austenaa.no/"
 license: MIT
 date-released: "2026-10-12"
 keywords: [multi-agent deliberation, affective computing, calibration, LLM agents, consciousness indicators]
