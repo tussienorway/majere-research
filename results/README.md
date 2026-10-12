@@ -21,3 +21,4 @@ NO-FC v1 (120 tasks, 80 dev / 40 held-out test, `data/nofc_v1.jsonl` in [majere-
 ## Index
 - [2026-10-12: Hermes local model eval (4B fine-tune vs 9B, candidates)](2026-10-12-hermes-local-model-eval.md) — Hermes Agent measurements, not NO-FC scores.
 - [2026-10: AI agent architectures overview + per-agent deep dives (Norwegian)](../research/ai-agent-architectures-2026-10.md) – [details](../research/agent-architectures/README.md)
+- [2026-10-13: Semantisk ruter fase 1 (norsk)](2026-10-13-semantisk-ruter-fase1.md) – [plan](../research/plan-semantisk-ruting.md)
