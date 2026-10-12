@@ -1,2 +1,17 @@
 # Results
-No results yet. Pilot results, including negative or null findings, will be published here with configs and raw outputs.
+
+## 2026-10-12: Baseline on 40 seed tasks (NO-FC v0), no fine-tuning
+Run on an RTX 5060 Ti 16 GB with Ollama 0.40.2, Q4_K_M quantisation, temperature 0 and native tool calling.
+
+| Model | Exact match (all) | Bokmål | Nynorsk | Function name | Arguments | No call | Clarify |
+|---|---|---|---|---|---|---|---|
+| qwen3:8b | **0.825** (33/40) | 0.85 | 0.80 | 0.917 | 0.819 | 1.00 | 1.00 |
+| NorMistral-11B-thinking | not scored: no tool support in Ollama | | | | | | |
+
+The error analysis and raw answers are in [majere-nofc/results](https://github.com/tussienorway/majere-nofc/tree/main/results). In short:
+- wrong weekday (3)
+- "halv ni" read as 09:30 (1)
+- wrong phone number in Nynorsk (1)
+- unnecessary follow-up questions (2)
+
+These are indicative numbers on a small development set.

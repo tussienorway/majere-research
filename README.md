@@ -1,41 +1,38 @@
 # Majere Research
 
-Open research side of **Majere: Multi-Persona Deliberation ("Archetype Council") as an Architecture for Affect-Modulated, Self-Monitoring Language Agents**.
+The open research side of **Majere**: fine-tuning a 7–8B open model for **Norwegian (Bokmål and Nynorsk)** and **reliable function/tool calling**, quantised so it runs locally on a single 16 GB GPU.
 
-Project site: https://majere.austenaa.no · Contact: thomas@austenaa.no
+- Project site: https://majere.thomasaustenaa.no
+- Contact: mail@thomasaustenaa.no
+- Benchmark and code: https://github.com/tussienorway/majere-nofc (NO-FC, the evaluator, the QLoRA pilot)
+- Research log: [LOG.md](LOG.md)
 
-## Summary
-Majere is an agent architecture in which several "archetype" personas deliberate before the agent acts. The council maintains an internal affect state (valence/arousal) and a tunable impulsivity parameter. We test it against baselines that get the same token budget, and we publish every result, including negative ones.
-
-## Research questions (falsifiable)
-1. **RQ1 – Affect modulation:** Does a council-updated affect state produce more consistent and context-appropriate behaviour than a prompted single persona?
-2. **RQ2 – Impulsivity vs. deliberation:** Does a tunable impulsivity parameter give a measurable speed–quality trade-off curve?
-3. **RQ3 – Self-monitoring:** Does the council improve calibration (lower ECE, more precise abstention) and reduce self-contradictions compared with a single model and with self-consistency?
-4. **RQ4 – Consciousness indicators:** Which functional indicators from the literature (global-workspace-like broadcast, a self-model, reports of internal state) are present, and do they survive ablations?
-
-**Framing:** RQ4 measures *functional indicators of architectural properties* only. We make **no claim** that the system is conscious or has feelings.
-
-**Falsification:** The core hypothesis is rejected if the council does not beat an equal-token-budget baseline (self-consistency or multi-agent debate).
+## Status (12 Oct 2026)
+| Item | Status |
+|---|---|
+| Plan, data and benchmark selection | Done ([docs/research-plan.md](docs/research-plan.md)) |
+| NO-FC v0: 40 seed tasks (nb/nn) and evaluator | Done ([majere-nofc](https://github.com/tussienorway/majere-nofc)) |
+| Baseline, no fine-tuning | qwen3:8b scores **0.825** exact match (33/40) on NO-FC v0. NorMistral-11B could not be scored (no tool support in Ollama). See [results/](results/README.md) |
+| QLoRA pilot (RTX 5060 Ti 16 GB) | Scripts ready, not run yet |
+| Fine-tuned results | None yet |
 
 ## Layout
-- `docs/research-plan.md`: questions, hypotheses, method
-- `docs/evaluation-protocol.md`: baselines, metrics, falsification criteria
-- `pilot/`: planned pilot (not yet run)
-- `results/`: results will be published here (none yet)
-
-The core agent implementation is private for now. This repository holds the open protocol, the evaluation code and the results.
+- `docs/research-plan.md`: questions, hypotheses, method and compute plan.
+- `docs/evaluation-protocol.md`: benchmarks, metrics and the success criterion.
+- `results/`: published results, the baseline so far.
+- `LOG.md`: dated research log.
+- `docs/archive/`: the earlier Archetype Council track (paused, kept for transparency).
 
 ## Licence
-Code: MIT (see `LICENSE`). Documentation and results: CC BY 4.0.
+Code: MIT (see `LICENSE`). Documentation and results: CC BY 4.0. Benchmark code in majere-nofc: Apache-2.0.
 
 ## Cite this
 ```bibtex
 @misc{majere2026,
-  title  = {Majere: Multi-Persona Deliberation as an Architecture for Affect-Modulated, Self-Monitoring Language Agents},
-  author = {Thomas},
+  title  = {Majere: Norwegian (Bokm{\aa}l/Nynorsk) Language Models with Reliable Tool Calling on a Single 16 GB GPU},
+  author = {Austenaa, Thomas},
   year   = {2026},
   howpublished = {\url{https://github.com/tussienorway/majere-research}},
-  note   = {Research protocol; results pending}
+  note   = {Research protocol and baseline results}
 }
 ```
-See also `CITATION.cff`. Project site: https://majere.austenaa.no.
