@@ -1,0 +1,3 @@
+# 13. Letta (MemGPT)
+- **Arkitektur:** «core memory»-blokker (persona, human osv.) i konteksten, som agenten redigerer selv med verktøy. Arkiv- og recall-minne ligger utenfor konteksten. Sleep-time-agenter konsoliderer minnet i bakgrunnen (for eksempel `sleeptime_agent_frequency=5`). I 2026 går Letta over til subagenter på klientsiden og git-basert «MemFS». Kilder: https://www.letta.com/blog/sleep-time-compute/ og https://docs.letta.com/configuration/memory/
+- **For oss:** git-versjonert minne. Hermes sine MEMORY- og skills-mapper kan ligge i et privat git-repo med en commit per endring, slik at alt kan spores og rulles tilbake. Sleep-time kan kjøre om natten på 9B når GPU-en er ledig.

@@ -1,0 +1,3 @@
+# 17. Desktop Commander MCP
+- **Arkitektur:** en MCP-server med 26 verktøy, blant annet `start_process`, `interact_with_process` og `read_process_output` (med sider). Den har `edit_block` med diff-tilbakemelding på tegnnivå, revisjonslogg for alle kall (rotasjon ved 10 MB), blokkliste for kommandoer og valgfri Docker-isolasjon. Kilde: https://github.com/wonderwhy-er/DesktopCommanderMCP
+- **For oss:** dette er «remote desktop commander» som brukeren nevnte. Den kan kobles rett inn i Hermes som MCP-server, fordi den er gratis og MIT-lisensiert. Alternativt kan vi kopiere mønsteret med utdata delt i sider og interaktive prosesser.

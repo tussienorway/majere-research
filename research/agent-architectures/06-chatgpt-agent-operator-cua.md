@@ -1,0 +1,3 @@
+# 6. ChatGPT Agent (Operator/CUA)
+- **Slik fungerer det:** CUA-modellen er trent med forsterkningslæring på skjermbilde → handling (klikk på x,y, skriving, scrolling) i en virtuell maskin. Den kombineres med en tekstnettleser og terminal. Ved innlogging, CAPTCHA og kjøp gir den kontrollen tilbake til brukeren («takeover»). Kilder: https://openai.com/index/computer-using-agent/ og https://openai.com/index/introducing-chatgpt-agent/
+- **For oss:** en eksplisitt «takeover»-tilstand i computer-use-profilen, der agenten pauser og sender en Telegram-melding med skjermbilde. Vi bør også velge mellom DOM-verktøy og pikselklikk etter hvilken oppgave det er (vurdering). Hele den lukkede CUA-modellen kan vi ikke kopiere.

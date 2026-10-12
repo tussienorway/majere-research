@@ -1,0 +1,3 @@
+# 12. AutoGen / AG2 / Microsoft Agent Framework
+- **Arkitektur:** asynkron meldingsutveksling mellom agenter. GroupChat med en speaker selector, som kan være en LLM eller regelbasert. Microsoft har slått AutoGen og Semantic Kernel sammen til Microsoft Agent Framework, mens AG2 er en videreføring drevet av fellesskapet. Kilder: https://github.com/microsoft/autogen, https://github.com/microsoft/agent-framework og https://github.com/ag2ai/ag2
+- **For oss:** speaker selection i rådet. I stedet for at alle stemmene alltid snakker, velges den neste som er mest relevant. Det sparer VRAM-tid på én GPU.
