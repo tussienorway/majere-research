@@ -1,5 +1,11 @@
 # Research log
 
+## 2026-10-13 (docs sync)
+- **Docs synced to the v1 baselines and the QLoRA smoke run** (numbers copied from the entry below and from [majere-nofc](https://github.com/tussienorway/majere-nofc) PR #7 and its `results/v1/`): README Status and Latest, results index (new v1 baselines section, v0 kept as historical), research plan, evaluation protocol and pilot README.
+- **Decision:** Qwen3-8B with thinking off is the base for the pilot. It leads NorMistral-11B by a wide margin on NO-FC v1 tool calling (0.825 vs 0.325 test) and thinking off is both faster and better. NorMistral stays as a comparison and a possible later Norwegian-fluency check. See [docs/research-plan.md](docs/research-plan.md#decisions).
+- **New:** [docs/pilot-runbook.md](docs/pilot-runbook.md) for the full pilot SFT on a Windows PC with an RTX 5060 Ti 16 GB. It lists two gaps in majere-nofc: no resume/intermediate checkpoint in `train/qlora_sft.py`, and no script or chat template to serve the adapter for NO-FC.
+- **Next:** unchanged: full pilot SFT on Qwen3-8B, then eval on the v1 test split.
+
 ## 2026-10-13 (later)
 - **NO-FC v1 baselines** (Ollama, RTX 5060 Ti; test = 40 held-out / dev = 80, exact match): qwen3:8b thinking off native tools **0.825** test / 0.775 dev; thinking off prompt tools 0.800 / 0.762; thinking on native 0.800 / 0.688; NorMistral-11B-thinking Q4 prompt tools **0.325** / 0.287 (call-name acc 0.11, it barely emits parseable calls). Thinking off is both faster and better for qwen3.
 - **QLoRA smoke run** (Qwen3-8B, 4-bit, r16, max_len 1024, 50 steps, torch 2.11+cu128): peak 9.41 GiB, 15.3 s/step, ~327 tok/s. At max_len 2048 it hit OOM at step 25 with another llama.cpp server holding ~5 GB. Needed fixes: trl 1.15 dropped `warmup_ratio` (now `warmup_steps=5`), and trl's fused LM head needs Triton, so `triton-windows` is added on Windows. Details: [majere-nofc PR #7](https://github.com/tussienorway/majere-nofc/pull/7).
