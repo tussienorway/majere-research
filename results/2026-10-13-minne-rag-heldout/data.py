@@ -1,0 +1,121 @@
+# Held-out Norwegian benchmark (own data). label -> text ; queries -> label
+import random
+FACTS = {
+ "sjef": "Min leder på jobben heter Ragnhild Søreide og hun sitter i fjerde etasje.",
+ "lege": "Fastlegen min er dr. Henrik Aas på Grünerløkka legesenter.",
+ "bil": "Jeg kjører en grå Skoda Enyaq fra 2023 med registreringsnummer EL 48213.",
+ "allergi": "Jeg er allergisk mot hasselnøtter og må unngå nøttemix.",
+ "datter_bursdag": "Datteren min Ingrid har bursdag 14. februar.",
+ "wifi": "Wifi-nettverket hjemme heter Frivold5G.",
+ "tannlege": "Neste tannlegetime er hos Tannhelse Majorstuen i november.",
+ "hund": "Hunden vår er en border collie som heter Luna.",
+ "kaffe": "Jeg drikker kaffen svart, aldri med melk eller sukker.",
+ "gpu": "Hovedmaskinen har et RTX 5060 Ti-skjermkort med 16 GB minne.",
+ "port": "Den lokale språkmodellserveren kjører på port 8080.",
+ "trening": "Jeg trener styrke på SATS Storo tirsdag og torsdag kveld.",
+ "mor": "Mamma bor i Ålesund og liker å få telefon søndag ettermiddag.",
+ "bank": "Lønnskontoen min ligger i Sparebanken Vest.",
+ "fotball": "Jeg holder med Rosenborg i Eliteserien.",
+ "språk": "Jeg vil at assistenten alltid svarer på norsk bokmål.",
+ "ferie": "Sommerferien i år går til Lofoten med telt i juli.",
+ "nabo": "Naboen Kjell har reservenøkkel til leiligheten.",
+ "strøm": "Strømavtalen er spotpris hos Tibber.",
+ "bok": "Boken jeg leser nå er Kristin Lavransdatter av Sigrid Undset.",
+ "passord_hint": "Passordhåndtereren jeg bruker er Bitwarden.",
+ "repo": "Kildekoden til Hermes ligger i GitHub-repoet majere-core.",
+ "sykkel": "Sykkelen står i sykkelboden i kjelleren, bak barnevogna.",
+ "medisin": "Jeg tar Levaxin hver morgen før frokost.",
+ "venn": "Bestevennen min Ola bor i Tromsø og jobber som fisker.",
+ "kjæreste": "Samboeren min heter Mari og jobber som sykepleier på Ullevål.",
+ "bolig": "Leiligheten har tre soverom og balkong mot vest.",
+ "forsikring": "Bilforsikringen er hos If og fornyes i mars.",
+ "mat": "Favorittmaten min er fårikål med mye pepper.",
+ "musikk": "Jeg hører mest på Kaizers Orchestra når jeg koder.",
+ "skole": "Ingrid går i tredje klasse på Tåsen skole.",
+ "hobby": "Jeg strikker gensere om vinteren.",
+ "tog": "Jeg pendler med T-banen linje 4 til jobb.",
+ "mål": "Målet mitt i år er å løpe Oslo halvmaraton under to timer.",
+ "dialekt_hytte": "Hytta ligger på Hardangervidda, uten strøm, men med vedovn.",
+ "frisør": "Frisøren min heter Sanne og holder til på Torshov.",
+ "kontor": "Kontoret ligger i Oslo sentrum, i Akersgata.",
+ "verktøy": "Jeg foretrekker VS Code fremfor Vim til Python.",
+ "sky": "Jeg vil ikke betale for skytjenester; alt skal kjøres lokalt.",
+ "sko": "Jeg bruker skostørrelse 44.",
+}
+QUERIES = [  # (query, label, category)
+ ("hva heter sjefen min", "sjef", "paraphrase"), ("hvem er lederen min på jobb", "sjef", "paraphrase"),
+ ("kven er sjefen min", "sjef", "nynorsk"), ("hvem er fastlegen", "lege", "paraphrase"),
+ ("kva heiter legen min", "lege", "nynorsk"), ("what car do I drive", "bil", "english"),
+ ("hva er bilskiltet mitt", "bil", "paraphrase"), ("kva er eg allergisk mot", "allergi", "nynorsk"),
+ ("tåler jeg nøtter", "allergi", "paraphrase"), ("når har ingrid bursdag", "datter_bursdag", "direct"),
+ ("når fyller dattera mi år", "datter_bursdag", "dialect"), ("hva heter wifien hjemme", "wifi", "paraphrase"),
+ ("wifi navn", "wifi", "english"), ("når er neste tannlegetime", "tannlege", "direct"),
+ ("tannlgee time", "tannlege", "typo"), ("hva heter bikkja", "hund", "dialect"),
+ ("what's the dog's name", "hund", "english"), ("hvordan vil jeg ha kaffen", "kaffe", "paraphrase"),
+ ("korleis drikk eg kaffi", "kaffe", "nynorsk"), ("hvilket grafikkort har jeg", "gpu", "paraphrase"),
+ ("how much VRAM does my GPU have", "gpu", "english"), ("hvilken port bruker llama serveren", "port", "paraphrase"),
+ ("når trener jeg", "trening", "direct"), ("treningssenter", "trening", "paraphrase"),
+ ("kor bur mamma", "mor", "nynorsk"), ("når skal jeg ringe mora mi", "mor", "dialect"),
+ ("hvilken bank bruker jeg", "bank", "direct"), ("hvilket lag heier jeg på", "fotball", "paraphrase"),
+ ("favorittklubb fotbal", "fotball", "typo"), ("hvilket språk skal du svare på", "språk", "paraphrase"),
+ ("kvar skal vi på ferie i sommar", "ferie", "nynorsk"), ("hvem har ekstranøkkel", "nabo", "paraphrase"),
+ ("strømleverandør", "strøm", "paraphrase"), ("hva leser jeg for tiden", "bok", "paraphrase"),
+ ("which password manager", "passord_hint", "english"), ("hvor ligger koden til hermes", "repo", "paraphrase"),
+ ("hvor er sykkelen", "sykkel", "direct"), ("hvilke medisiner tar jeg", "medisin", "paraphrase"),
+ ("levaksin", "medisin", "typo"), ("hvor bor ola", "venn", "direct"), ("kva jobbar kjærasten min med", "kjæreste", "nynorsk"),
+ ("hvor mange soverom har vi", "bolig", "direct"), ("når fornyes bilforsikringa", "forsikring", "dialect"),
+ ("favorite food", "mat", "english"), ("hva hører jeg på mens jeg programmerer", "musikk", "paraphrase"),
+ ("hvilken klasse går ingrid i", "skole", "direct"), ("hva gjør jeg på fritiden om vinteren", "hobby", "paraphrase"),
+ ("hvordan kommer jeg meg på jobb", "tog", "paraphrase"), ("treningsmål i år", "mål", "paraphrase"),
+ ("har hytta straum", "dialect_hytte" if False else "dialekt_hytte", "nynorsk"), ("frisor", "frisør", "typo"),
+ ("adressen til kontoret", "kontor", "paraphrase"), ("preferred editor for python", "verktøy", "english"),
+ ("kan vi bruke betalte cloud tjenester", "sky", "english"), ("skostrrelse", "sko", "typo"),
+]
+# supersession: (old, new, query)
+SUPER = [
+ ("Jeg bor i Bergen, på Nordnes.", "Jeg har flyttet til Oslo og bor nå på Frivoldveien.", "hvor bor jeg nå"),
+ ("Telefonnummeret mitt er 912 34 567.", "Nytt telefonnummer: 478 90 123.", "hva er telefonnummeret mitt"),
+ ("Jeg jobber som lærer på Persbråten vgs.", "Jeg har sluttet som lærer og jobber nå som utvikler i Bekk.", "hvor jobber jeg"),
+ ("Hermes bruker modellen Qwen3-8B.", "Hermes bruker nå Qwen3.5-9B Q6_K som hovedmodell.", "hvilken modell bruker hermes"),
+ ("Møtet med banken er 3. oktober.", "Møtet med banken er flyttet til 17. oktober.", "når er bankmøtet"),
+ ("Jeg er vegetarianer.", "Jeg spiser kjøtt igjen, men lite rødt kjøtt.", "spiser jeg kjøtt"),
+ ("Abonnementet på Viaplay er aktivt.", "Jeg har sagt opp Viaplay.", "har jeg viaplay"),
+ ("Bilen er en Volvo V70.", "Jeg solgte Volvoen og har kjøpt elbil.", "hva slags bil har jeg nå"),
+ ("Treneren min heter Per.", "Ny personlig trener: Siri, fra januar.", "kven er treneren min"),
+ ("Hytta leies ut i påsken.", "Hytta blir ikke leid ut i påsken likevel, vi bruker den selv.", "skal hytta leies ut i påsken"),
+]
+# near-duplicate distractors per label (same frame, different entity)
+NEAR = [
+ "Lederen til Mari på Ullevål heter Bente Hagen.", "Kjells sjef heter Arne Moen.",
+ "Mammas fastlege er dr. Lise Berg i Ålesund.", "Naboen kjører en rød Toyota Yaris.",
+ "Ola er allergisk mot katter.", "Mari har bursdag 2. september.", "Wifi-nettverket på hytta heter Vidda4G.",
+ "Mari har tannlegetime i desember.", "Naboens hund er en labrador som heter Bamse.", "Mari drikker te med honning.",
+ "Den bærbare maskinen har et RTX 3050-skjermkort med 4 GB minne.", "ComfyUI kjører på port 8188.",
+ "Mari trener yoga på mandager.", "Pappa bor i Trondheim.", "Sparekontoen ligger i DNB.",
+ "Ola holder med Tromsø IL.", "Ingrid leser Pippi Langstrømpe.", "Ola bor i Tromsø, men skal flytte til Bodø.",
+ "Det gamle repoet multi-mind-ai er arkivert.", "Barnevogna står i gangen.", "Mari tar p-piller.",
+ "Ingrid går på SFO etter skolen.", "Mari pendler med buss 25.", "Mari vil løpe Birkebeinerløpet.",
+ "Fjellstua på Hardangervidda har strøm.", "Ingrids frisør heter Tone.", "Maris kontor ligger på Ullevål.",
+ "Ola bruker Emacs.", "Jeg betalte for Netflix i fjor.", "Ingrid bruker skostørrelse 31.",
+]
+def distractors(n=2000, seed=7):
+    r = random.Random(seed)
+    names = ["Per","Kari","Lars","Siv","Nils","Hege","Tor","Anne","Odd","Liv","Geir","Unni","Sindre","Ida","Eirik"]
+    places = ["Hamar","Lillehammer","Kristiansand","Molde","Narvik","Halden","Gjøvik","Skien","Fredrikstad","Kongsberg","Bodø","Alta"]
+    things = ["ny jakke","grill","stol","lampe","vaskemaskin","sofa","kajakk","drill","telt","ski","gitar","printer"]
+    tpl = ["{n} fra {p} kjøpte en {t} på finn.no for {k} kroner.",
+           "Møtet om {t} med {n} ble utsatt til uke {w}.",
+           "{n} anbefalte en kafé i {p} som serverer god {f}.",
+           "Huskeliste: hente {t} hos {n} i {p} før fredag.",
+           "Artikkel lest: {p} kommune vurderer ny {t}-ordning.",
+           "{n} spurte om å låne {t} til helgen.",
+           "Loggnotat: skript {k} feilet på {p}-serveren, retry ok.",
+           "Ideen om {t} til {n} kan bli julegave.",
+           "Været i {p} i dag: {k} mm regn og vind fra nord.",
+           "Podkast om {f} og historie fra {p}, episode {w}."]
+    foods = ["pizza","sushi","kanelboller","lapskaus","taco","suppe","vafler"]
+    out = set()
+    while len(out) < n:
+        out.add(r.choice(tpl).format(n=r.choice(names), p=r.choice(places), t=r.choice(things),
+            k=r.randint(50,9000), w=r.randint(1,52), f=r.choice(foods)))
+    return sorted(out)
