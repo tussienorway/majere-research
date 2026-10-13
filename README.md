@@ -19,11 +19,12 @@ The open research side of **Majere**: fine-tuning a 7–8B open model for **Norw
 | Baselines v1, no fine-tuning | Done, exact match on test (40) / dev (80): qwen3:8b thinking off, native tools **0.825** / 0.775; thinking off, prompt tools 0.800 / 0.762; thinking on, native tools 0.800 / 0.688; NorMistral-11B-thinking Q4, prompt tools **0.325** / 0.287 (call-name acc 0.11). See [results/](results/README.md#2026-10-1213-no-fc-v1-baselines-no-fine-tuning) |
 | Base-model decision | Qwen3-8B, thinking off, for the pilot. See [Decisions](docs/research-plan.md#decisions) |
 | QLoRA smoke run (RTX 5060 Ti 16 GB) | Done: Qwen3-8B, 4-bit, r16, max_len 1024, 50 steps. Peak 9.41 GiB, 15.3 s/step, ~327 tok/s. Source: [majere-nofc PR #7](https://github.com/tussienorway/majere-nofc/pull/7) |
-| Full pilot SFT | Not run yet. Runbook: [docs/pilot-runbook.md](docs/pilot-runbook.md) |
+| Full pilot SFT | Not run yet (needs GPU time). The pilot mix can now include procedural Norwegian temporal function-calling examples via `--n-no-temporal` (default 300, 0 disables), [majere-nofc PR #10](https://github.com/tussienorway/majere-nofc/pull/10). Runbook: [docs/pilot-runbook.md](docs/pilot-runbook.md) |
 | Fine-tuned results | None yet |
-| Next | Full pilot SFT on Qwen3-8B, then evaluation on the v1 test split |
+| Next | Score qwen3:8b (thinking off) on the hard-temporal set, run the full pilot SFT on Qwen3-8B, then evaluate the adapter and the no-adapter control on v1 test and hard-temporal. All still blocked on GPU time |
 
 ## Latest (13 Oct 2026)
+- **Pilot SFT mix gets Norwegian temporal examples:** [majere-nofc PR #10](https://github.com/tussienorway/majere-nofc/pull/10) adds a procedural generator (`train/make_no_temporal_fc.py`) and `--n-no-temporal` to `train/build_data.py` (default 300, 0 disables). It targets the date/time failure modes from the v1 error analysis. No GPU run and no scores yet; baseline numbers below are unchanged. See [LOG.md](LOG.md).
 - **NO-FC v1 baselines are in** (Ollama, RTX 5060 Ti, exact match on the 40-task test split / 80-task dev split). qwen3:8b with thinking off and native tools scores **0.825** / 0.775. NorMistral-11B-thinking Q4 with prompt tools scores **0.325** / 0.287 and barely emits parseable calls (call-name acc 0.11). Full table in [results/](results/README.md). Thinking off is both faster and better for qwen3. Note that the v1 test score of 0.825 is a different task set from the v0 score of 0.825 (33/40).
 - **QLoRA smoke run done** (50 steps, peak 9.41 GiB at max_len 1024). The full pilot SFT is not run yet. Next: full pilot SFT on Qwen3-8B, then eval on the v1 test split. See [docs/pilot-runbook.md](docs/pilot-runbook.md).
 - **Base-model decision:** Qwen3-8B with thinking off is the pilot base. See [docs/research-plan.md](docs/research-plan.md#decisions).
