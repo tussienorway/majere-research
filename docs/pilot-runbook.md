@@ -29,6 +29,7 @@ python train/build_data.py --n-alpaca 4000 --n-glaive 4000 --out pilot_mix.jsonl
 ```
 This is the command in the majere-nofc README (4000 and 4000 are also the script defaults). Notes:
 - The mix is plain text in one `<|role|>` format with `<tool_call>{json}</tool_call>` for tool calls.
+- Since [majere-nofc PR #10](https://github.com/tussienorway/majere-nofc/pull/10), `build_data.py` also adds procedural Norwegian (Bokmål + Nynorsk) temporal function-calling examples via `--n-no-temporal` (default 300, so the command above includes them; `--n-no-temporal 0` disables). They are filtered against the eval files (v0 seed, v1, hard-temporal). At the default: 150 nb / 150 nn, 249 call / 27 clarify / 24 no-call. This is untested on a GPU, so the example count and `dataset_tokens` of the full mix differ from the smoke run.
 - The glaive part is English. It is used as-is in the pilot; translating the function-calling data into Bokmål and Nynorsk is a later step.
 - The smoke run trained on 800 examples and 249,889 dataset tokens (from its metrics file). The `build_data.py` arguments used for the smoke mix are not recorded, so do not assume the full mix has the same size. Its token count is written to `pilot_metrics.json` as `dataset_tokens`.
 
