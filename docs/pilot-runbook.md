@@ -61,12 +61,18 @@ From the 50-step smoke run (Qwen3-8B, 4-bit, r16, max_len 1024, grad_accum 16, t
 To estimate the full run: steps per epoch = examples / 16 (batch size 1 × grad_accum 16), and wall time ≈ `dataset_tokens` / 327 s at the smoke throughput. The smoke measurements of ~330 tok/s correspond to ~1.2M tokens/h on this card (LOG.md). Compare the real `pilot_metrics.json` against these numbers: a much higher peak VRAM or a much lower throughput usually means another process is using the GPU.
 
 ## 7. Checkpointing and resume
-What the script does today:
-- `save_strategy="epoch"` with `--epochs` defaulting to 1.0, so Trainer writes a checkpoint only at the end of the epoch. Then `save_model` writes the final adapter to the output directory.
-- There is **no intermediate checkpoint** and **no resume flag**. `train/qlora_sft.py` calls `train()` without `resume_from_checkpoint`.
-- If the run is interrupted, restart it from the beginning with the same command. Run it when you can leave the PC undisturbed.
+Since [majere-nofc PR #8](https://github.com/tussienorway/majere-nofc/pull/8), `train/qlora_sft.py` can write intermediate checkpoints and resume. Use it for the full pilot:
 
-Possible follow-up in majere-nofc (not done): add a `--save-steps` option and a `--resume` option to `train/qlora_sft.py` before any run that is much longer than the pilot.
+```bash
+python train/qlora_sft.py --base qwen3-8b --data pilot_mix.jsonl --max-len 1024 --save-steps 50
+# after a crash or reboot: the same command plus --resume (newest complete checkpoint in --out)
+python train/qlora_sft.py --base qwen3-8b --data pilot_mix.jsonl --max-len 1024 --save-steps 50 --resume
+```
+
+- `--save-steps` counts optimizer steps (one step = `--grad-accum` examples). The newest 2 checkpoints are kept unless `--save-total-limit` says otherwise. Without `--save-steps` the old behaviour (one checkpoint per epoch) is unchanged.
+- Resume with the same `--data`, `--seed`, `--epochs` and other hyperparameters, and the same `--out`.
+- The `pilot_metrics.json` of a resumed run covers only the resumed part (`steps_this_run`, `resumed_from`). Use an uninterrupted run for throughput numbers.
+- Not yet tested on a GPU; the pilot is the first real run of this code.
 
 ## 8. Evaluate the adapter on the v1 test split
 `nofc/evaluate.py` talks to any OpenAI-compatible chat endpoint and scores the 40 held-out test tasks:
@@ -75,9 +81,18 @@ Possible follow-up in majere-nofc (not done): add a `--save-steps` option and a 
 python -m nofc.evaluate --base-url <endpoint>/v1 --model <served-model-name> --tasks data/nofc_v1.jsonl --split test --out results/v1/<name>-<date>.jsonl
 ```
 
-Add `--tool-mode prompt` (schemas in the system prompt, `<tool_call>` parsed from the reply) or leave the default native mode, and say which you used. The training text uses `<tool_call>{json}</tool_call>`, so prompt mode is the closest match to what the adapter saw; this is a suggestion, not a measured result. Add `--no-think` only if you also report the Qwen3 baseline with it. The baselines to compare against are in [results/README.md](../results/README.md): on the test split, qwen3:8b thinking off scores **0.825** with native tools and 0.800 with prompt tools.
+Add `--tool-mode prompt` (schemas in the system prompt, `<tool_call>` parsed from the reply) or leave the default native mode, and say which you used. The training text uses `<tool_call>{json}</tool_call>`, so prompt mode is the closest match to what the adapter saw; this is a suggestion, not a measured result. Do not add `--no-think` for the adapter (see below). The baselines to compare against are in [results/README.md](../results/README.md): on the test split, qwen3:8b thinking off scores **0.825** with native tools and 0.800 with prompt tools.
 
-**Known gap:** majere-nofc has no script yet to serve the adapter. Its README says that before NO-FC can be run against a fine-tuned model, the server needs a matching chat template (TODO: a template file plus GGUF export). The training format is not Qwen3's own chat template, so a server that applies the stock Qwen3 template will not reproduce the training format. Until that exists, any evaluation setup is ad hoc: write down exactly how the adapter was served (merge or adapter loading, server, chat template). Do not report the Ollama Q4_K_M baselines and an adapter served another way as a like-for-like comparison without saying so.
+**Serving the adapter:** the training format is not Qwen3's chat template, so Ollama/llama.cpp cannot serve the adapter as-is. Since majere-nofc PR #8, `nofc/serve.py` serves it with the same formatter as the training data (two terminals, from the majere-nofc root):
+
+```bash
+python -m nofc.serve --base qwen3-8b --adapter runs/qwen3-8b-r16-s0 --port 8000
+python -m nofc.evaluate --base-url http://127.0.0.1:8000/v1 --model qwen3-8b-adapter --tool-mode prompt --tasks data/nofc_v1.jsonl --split test --out adapter_prompt.jsonl
+```
+
+- Also run the **control**: the same server without `--adapter` (`python -m nofc.serve --base qwen3-8b --port 8001`, model `qwen3-8b-base`), evaluated the same way. Adapter vs control is the like-for-like comparison; the Ollama Q4_K_M baselines use a different prompt path and quantisation and are context only.
+- Do not pass `--no-think` with this server; it would change the prompt relative to training.
+- Not provided: merge + GGUF export for Ollama/llama.cpp.
 
 Do the evaluation with the other GPU users still stopped, then compare with the same hardware and temperature 0, as the baselines were.
 
