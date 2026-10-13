@@ -1,5 +1,12 @@
 # Research log
 
+## 2026-10-13 (pilot tooling)
+- **Both runbook gaps are closed in code** by [majere-nofc PR #8](https://github.com/tussienorway/majere-nofc/pull/8) (merged): `train/qlora_sft.py` has `--save-steps`, `--save-total-limit` and `--resume`, and `nofc/serve.py` is an OpenAI-compatible server that loads Qwen3-8B in 4-bit NF4 with the LoRA adapter and builds prompts with the same formatter as the training data (`nofc/chatfmt.py`). A control run serves the base model without the adapter in the same format.
+- **Tests:** 38 unit tests without a GPU, including a check that the served prompt plus answer is byte-identical to the training text for all 120 v1 tasks in both tool modes.
+- **Not verified:** nothing in PR #8 has run on a GPU yet (resume, model loading, real generations). No new scores.
+- **Runbook:** [docs/pilot-runbook.md](docs/pilot-runbook.md) sections 7 and 8 now describe checkpoint/resume and serve + evaluate, with the adapter compared against the no-adapter control run.
+- **Next:** full pilot SFT on the user's PC with `--save-steps`, then NO-FC v1 test for the adapter and the control run. Needs a 2–3 h window with Ollama/ComfyUI stopped.
+
 ## 2026-10-13 (docs sync)
 - **Docs synced to the v1 baselines and the QLoRA smoke run** (numbers copied from the entry below and from [majere-nofc](https://github.com/tussienorway/majere-nofc) PR #7 and its `results/v1/`): README Status and Latest, results index (new v1 baselines section, v0 kept as historical), research plan, evaluation protocol and pilot README.
 - **Decision:** Qwen3-8B with thinking off is the base for the pilot. It leads NorMistral-11B by a wide margin on NO-FC v1 tool calling (0.825 vs 0.325 test) and thinking off is both faster and better. NorMistral stays as a comparison and a possible later Norwegian-fluency check. See [docs/research-plan.md](docs/research-plan.md#decisions).
