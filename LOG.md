@@ -1,5 +1,10 @@
 # Research log
 
+## 2026-10-14 (compute tracker sync)
+- **[COMPUTE.md](COMPUTE.md) synced** to the real grant status as of 2026-10-14. None awarded. TRC: interest form sent 12 Oct, no reply. Hugging Face GPU grant: requested 13 Oct in [Space discussion #1](https://huggingface.co/spaces/tussienorway/majere-demo/discussions/1), no staff reply (this replaces the earlier "not yet requested" claim). Lambda: sent 12 Oct, confirmation received, no decision. CloudRift: sent 13 Oct, "Application received". Yotta Labs: draft ready locally, not submitted, awaiting approval. EuroHPC AI for Science: host request sent to UiA, deadline 30 Oct 2026 10:00 CET, not yet a full application. Sigma2/NRIS: blocked without a Norwegian PI.
+- **Known issue:** the HF discussion text still describes the old Archetype Council / Qwen3.5-9B demo numbers. A correcting follow-up is needed and has not been posted.
+- **Not measured:** no new experimental results. Full pilot SFT and hard-temporal baseline scores are still not run (need the PC GPU). Public ask: about 275 H100 GPU-hours for NO-FC / Qwen3-8B (thinking off).
+
 ## 2026-10-13 (Norwegian temporal examples in the pilot SFT mix)
 - **Procedural NO temporal function-calling examples** are now part of the pilot SFT mix via [majere-nofc PR #10](https://github.com/tussienorway/majere-nofc/pull/10) (merged, commit `9819c3c`): `train/make_no_temporal_fc.py` generates Norwegian (Bokmål + Nynorsk) temporal function-calling dialogues. This is a small procedural generator for the pilot, not the full Norwegian FC translation from the roadmap.
 - **Targets the three failure modes** from [results/v1/error_analysis.md](https://github.com/tussienorway/majere-nofc/blob/main/results/v1/error_analysis.md): (A) relative weekday/day offset resolved to the wrong date; (B) "halv X", "kvart over X", "kvart på X"; (C) over-clarifying when only optional arguments are missing. Clarify and no-call controls are included. Gold conventions match the eval: reference time Monday 2026-10-12 10:00, weekday = next occurrence after today, "halv X" = (X-1):30.
